@@ -123,10 +123,10 @@ export default class Room extends Component {
             />
             <Card.Body>
               <Card.Title style={{ textAlign: "center" }}>
-                ${item.price}
+                {item.price} VND
               </Card.Title>
               <Card.Text style={{ textAlign: "center", fontSize: "18pt" }}>
-                {item.name} Room
+                {item.name}
               </Card.Text>
               <Card.Text style={{ textAlign: "center", fontSize: "18pt" }}>
                 <Button
