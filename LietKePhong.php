@@ -7,7 +7,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $db_conn = mysqli_connect("localhost","root","","qlkhachsan");
 
-$allrooms = mysqli_query($db_conn,"SELECT room.id, room.image, room.price, roomtype.name FROM room INNER JOIN roomtype ON room.typeCode = roomtype.id");
+$allrooms = mysqli_query($db_conn,"SELECT room.id, room.image, roomtype.name, roomtype.price FROM room INNER JOIN roomtype ON room.typeCode = roomtype.id");
+
 
 if(mysqli_num_rows($allrooms) > 0){
 

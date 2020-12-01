@@ -79,7 +79,7 @@ export default class Room extends Component {
 
   componentDidMount() {
     // this.LayDsPhong();
-    Axios.get("http://localhost:8081/doan/LietKePhong.php")
+    Axios.get("http://localhost:8081/doan/Ql_KhachSan_Client/LietKePhong.php")
       .then(({ data }) => {
         if (data.success === 1) {
           this.setState({
