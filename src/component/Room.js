@@ -38,7 +38,7 @@ export default class Room extends Component {
   getModal(id, name) {
     if(this.state.modalState === true)
     {
-      this.setState({formState: 0})
+      this.setState({formState: 0});
     }
     this.state.modalState === true ? this.setState({ modalState: false }) : this.setState({ modalState: true });
     this.setState({ choseID: id, nametype: name })
@@ -47,6 +47,7 @@ export default class Room extends Component {
 
   Hoantatdatphong = (tb) => {
     alert(tb);
+    this.setState({formState: 0});
     this.setState({ datenhan: null, datetra: null, slphong: 1, songuoilon: 1, sotre: 0, hoten: '', email: '', diachi: '', sdt: '', cmnd: '' });
   }
 
@@ -56,7 +57,7 @@ export default class Room extends Component {
     let frmdata = new FormData();
     // dinh dang nam thang ngay, dinh dang gio quoc te,
     frmdata.append("datenhan", new Intl.DateTimeFormat('fr-ca').format(this.state.datenhan));
-    frmdata.append("datetra", new Intl.DateTimeFormat('fr-ca').format(this.state.datetra))
+    frmdata.append("datetra", new Intl.DateTimeFormat('fr-ca').format(this.state.datetra));
     //frmdata.append("datenhan", this.state.datenhan.toLocaleDateString());
     //frmdata.append("datetra", this.state.datetra.toLocaleDateString());
     frmdata.append("slphong", this.state.slphong);
@@ -70,7 +71,7 @@ export default class Room extends Component {
     frmdata.append("tong", this.state.tong);
     // console.log(frmdata.append("datenhan", new Intl.DateTimeFormat('fr-ca').format(this.state.datenhan)));
 
-    const url = "http://localhost:8081/doan/DatPhong.php";
+    const url = "http://localhost:8081/doan/Ql_KhachSan_Client/DatPhong.php";
 
     // Axios.post(url, frmdata).then(res => this.setState({thongbao: res.data})).catch(err => this.setState({thongbao:err}));
     Axios.post(url, frmdata).then(res => this.Hoantatdatphong(res.data)).catch(err => alert(err));
@@ -170,11 +171,13 @@ export default class Room extends Component {
                 <Row>
                   <Col md={6}>
                     <h5>Check in date</h5>
-                    <Calendar name="datenhan" value={this.state.datenhan} onChange={this.luuNhap} showIcon={true} />
+                    <Calendar name="datenhan" value={this.state.datenhan}
+                              onChange={this.luuNhap} showIcon={true} />
                   </Col>
                   <Col md={6}>
                     <h5>Check-out date</h5>
-                    <Calendar name="datetra" value={this.state.datetra} onChange={this.luuNhap} showIcon={true} />
+                    <Calendar name="datetra" value={this.state.datetra}
+                              onChange={this.luuNhap} showIcon={true} />
                   </Col>
                 </Row>
 
@@ -243,14 +246,16 @@ export default class Room extends Component {
                       <Col md={6}>
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Name</Form.Label>
-                          <Form.Control type="text" placeholder="Enter name" onChange={this.luuNhap} name="hoten" value={this.state.hoten} />
+                          <Form.Control type="text" placeholder="Enter name"
+                                        onChange={this.luuNhap} name="hoten" value={this.state.hoten} />
 
                         </Form.Group>
                       </Col>
                       <Col md={6}>
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label> Email</Form.Label>
-                          <Form.Control type="email" placeholder="Enter email" onChange={this.luuNhap} name="email" value={this.state.email} />
+                          <Form.Control type="email" placeholder="Enter email"
+                                        onChange={this.luuNhap} name="email" value={this.state.email} />
 
                         </Form.Group>
                       </Col>
@@ -259,7 +264,8 @@ export default class Room extends Component {
                       <Col md={6}>
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Identity card</Form.Label>
-                          <Form.Control type="text" placeholder="Enter identity card" onChange={this.luuNhap} name="cmnd" value={this.state.cmnd} />
+                          <Form.Control type="text" placeholder="Enter identity card"
+                                        onChange={this.luuNhap} name="cmnd" value={this.state.cmnd} />
 
                         </Form.Group>
                       </Col>
@@ -267,7 +273,8 @@ export default class Room extends Component {
                       <Col md={6}>
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Phone number</Form.Label>
-                          <Form.Control type="text" placeholder="Enter phone" onChange={this.luuNhap} name="sdt" value={this.state.sdt} />
+                          <Form.Control type="text" placeholder="Enter phone"
+                                        onChange={this.luuNhap} name="sdt" value={this.state.sdt} />
 
                         </Form.Group>
                       </Col>
@@ -277,7 +284,8 @@ export default class Room extends Component {
                       <Col md={12}>
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Address</Form.Label>
-                          <Form.Control type="text" placeholder="Enter address" onChange={this.luuNhap} name="diachi" value={this.state.diachi} />
+                          <Form.Control type="text" placeholder="Enter address"
+                                        onChange={this.luuNhap} name="diachi" value={this.state.diachi} />
 
                         </Form.Group>
 
@@ -288,16 +296,20 @@ export default class Room extends Component {
                   </Form>
                 </Row>
               </Container>}
-            <Button variant="primary" onClick={() => { this.state.formState === 0 ? this.setState({ formState: 1 }) : this.setState({ formState: 0 }) }} style={{ marginLeft: "400px" }}>
+            <Button variant="primary"
+                    onClick={() => { this.state.formState === 0 ? this.setState({ formState: 1 }) : this.setState({ formState: 0 }) }}
+                    style={{ marginLeft: "400px" }}>
               {this.state.formState === 0 ? "Next" : "Back"}
             </Button>
           </Modal.Body>
           <Modal.Footer>
 
-            <Button variant="success" hidden={this.state.formState === 0 ? true : false} onClick={this.handleSubmit} >
+            <Button variant="success" hidden={this.state.formState === 0 ? true : false}
+                    onClick={this.handleSubmit} >
               Booking Room
             </Button>
-            <Button variant="secondary" hidden={this.state.formState === 0 ? true : false} onClick={() => this.getModal()}>
+            <Button variant="secondary" hidden={this.state.formState === 0 ? true : false}
+                    onClick={() => this.getModal()}>
               Close
           </Button>
           </Modal.Footer>

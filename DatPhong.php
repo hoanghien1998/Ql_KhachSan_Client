@@ -19,7 +19,8 @@ $diachi = $_POST["diachi"];
 $sdt = $_POST["sdt"];
 $cmnd = $_POST["cmnd"];
 $tong = $_POST["tong"];
-
+echo $datetra;
+echo $datetra;
 $kiemtra = !empty($datenhan) && !empty($datetra) && !empty($slphong) && !empty($songuoilon) && !empty($hoten) && !empty($email) && !empty($diachi) && !empty($sdt) && !empty($cmnd);
 
     if ($kiemtra == true)
@@ -31,9 +32,13 @@ $kiemtra = !empty($datenhan) && !empty($datetra) && !empty($slphong) && !empty($
             mysqli_query($conn, $sql1);
 
             $lastID = mysqli_insert_id($conn);
-            $sql2 = "Insert into bookroom(cus_code,received_date,pay_date,total,number_adults, number_children) values ($lastID,$datenhan,$datetra, $tong,$songuoilon, $sotre)";
+            $sql2 = "Insert into bookroom(cus_code,received_date,pay_date,total,number_adults, number_children) 
+                        values ($lastID,$datenhan,$datetra, $tong,$songuoilon, $sotre)";
             mysqli_query($conn, $sql2);
 
+//            $lastID2 = mysqli_insert_id($conn);
+//            $sql3 = "INSERT INTO detailbook(booking_code, room_code, price, number_room)
+//                        values ($lastID2, $slphong)";
             mysqli_close($conn);               
             echo "You have successfully booked the room!!!! We will contact you soonest";
         
@@ -43,3 +48,4 @@ $kiemtra = !empty($datenhan) && !empty($datetra) && !empty($slphong) && !empty($
           echo "You must enter full information for us to contact";
     }
 ?>
+
