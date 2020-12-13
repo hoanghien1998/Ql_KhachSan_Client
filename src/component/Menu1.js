@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
-import {Navbar, Nav} from 'react-bootstrap'
+import {Navbar, Nav, Button} from 'react-bootstrap'
 //import {Button} from 'react-bootstrap'
 export default class Menu1 extends Component {
     render() {
         const dd={
             marginLeft:'50px',
+            fontFamily:'Poppins',
+            fontWeight:'bold'
+        }
+        const css={
+            marginLeft: '250px',
             fontFamily:'Poppins',
             fontWeight:'bold'
         }
@@ -21,6 +26,8 @@ export default class Menu1 extends Component {
                     <Nav.Link href="about" style={dd}>About</Nav.Link>
                     <Nav.Link href="contact" style={dd}>Contact</Nav.Link>
                     {/* <Nav.Link href="cart" style={dd}><i className="fas fa-shopping-cart" style={{fontSize:'20pt'}}></i></Nav.Link> */}
+                    <Nav.Link href="login" style={css}>  <Button variant="outline-info">Login</Button>{' '}</Nav.Link>
+                    <Nav.Link href="register" style={{marginLeft:'10px'}}>  <Button variant="outline-info">Register</Button>{' '}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

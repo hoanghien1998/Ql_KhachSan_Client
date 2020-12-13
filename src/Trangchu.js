@@ -10,9 +10,9 @@ import Home from './component/Home';
 import Room from './component/Room';
 import Restaurant from './component/Restaurant';
 import About from './component/About';
-import BookRom from './component/BookRoom';
 import Contact from './component/Contact';
-import Cart from './component/Cart';
+import Login from './component/Login';
+import Register from './component/Register';
 
 export default class Trangchu extends Component {
     // constructor(){
@@ -38,13 +38,13 @@ export default class Trangchu extends Component {
             <Menu1/>
             <Slider/>
             <Switch>
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/rooms" component={Room}/>
-                    <Route exact path="/restaurant" component={Restaurant}/>
-                    <Route exact path="/about" component={About}/>
-                    <Route exact path="/contact" component={Contact}/>
-                    <Route exact path="/bookroom" component={BookRom}/>
-                    <Route exact path="/cart" component={Cart}/>
+                <Route exact path="/" component={Home}/>
+                <Route exact path="/rooms" component={Room}/>
+                <Route exact path="/restaurant" component={Restaurant}/>
+                <Route exact path="/about" component={About}/>
+                <Route exact path="/contact" component={Contact}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/register" component={Register}/>
             </Switch>        
             <Footer/>
             
