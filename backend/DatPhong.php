@@ -8,8 +8,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
     
 $conn = mysqli_connect("localhost","root","","qlkhachsan");
   
-$datenhan = $_POST["datenhan"];
-$datetra = $_POST["datetra"];
+$datenhan = date_create($_POST["datenhan"]);
+$datetra = date_create($_POST["datetra"]);
 $slphong = $_POST["slphong"];
 $songuoilon = $_POST["songuoilon"];
 $sotre = $_POST["sotre"];
@@ -19,8 +19,9 @@ $diachi = $_POST["diachi"];
 $sdt = $_POST["sdt"];
 $cmnd = $_POST["cmnd"];
 $tong = $_POST["tong"];
-echo $datetra;
-echo $datetra;
+
+$ngaynhan = date_format($datenhan, "Y-m-d");
+$ngaytra = date_format($datetra, "Y-m-d");
 $kiemtra = !empty($datenhan) && !empty($datetra) && !empty($slphong) && !empty($songuoilon) && !empty($hoten) && !empty($email) && !empty($diachi) && !empty($sdt) && !empty($cmnd);
 
     if ($kiemtra == true)
@@ -33,8 +34,10 @@ $kiemtra = !empty($datenhan) && !empty($datetra) && !empty($slphong) && !empty($
 
             $lastID = mysqli_insert_id($conn);
             $sql2 = "Insert into bookroom(cus_code,received_date,pay_date,total,number_adults, number_children) 
-                        values ($lastID,$datenhan,$datetra, $tong,$songuoilon, $sotre)";
+                        values ($lastID,'{$ngaynhan}','{$ngaytra}', $tong,$songuoilon, $sotre)";
+
             mysqli_query($conn, $sql2);
+
 
 //            $lastID2 = mysqli_insert_id($conn);
 //            $sql3 = "INSERT INTO detailbook(booking_code, room_code, price, number_room)

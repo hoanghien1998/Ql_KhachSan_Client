@@ -5,6 +5,14 @@ import { Calendar } from 'primereact/calendar';
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import "../common/costume.css";
 
+// ham convert ngay thang nam
+function convert(str) {
+  var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+  return [date.getFullYear(), mnth, day].join("-");
+}
+
 export default class Room extends Component {
   constructor() {
     super();
@@ -42,7 +50,7 @@ export default class Room extends Component {
     }
     this.state.modalState === true ? this.setState({ modalState: false }) : this.setState({ modalState: true });
     this.setState({ choseID: id, nametype: name })
-    console.log(id, name)
+    //console.log(id, name)
   }
 
   Hoantatdatphong = (tb) => {
@@ -53,13 +61,17 @@ export default class Room extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
+    // const {datenhan} = this.state;
+     //console.log("state",this.state)
+    // console.log("datenhan", typeof datenhan) ---> để kiểm tra xem ngày lưu xuống dạng gì
     let frmdata = new FormData();
     // dinh dang nam thang ngay, dinh dang gio quoc te,
-    frmdata.append("datenhan", new Intl.DateTimeFormat('fr-ca').format(this.state.datenhan));
-    frmdata.append("datetra", new Intl.DateTimeFormat('fr-ca').format(this.state.datetra));
+    // frmdata.append("datenhan", new Intl.DateTimeFormat('fr-ca').format(this.state.datenhan));
+    // frmdata.append("datetra", new Intl.DateTimeFormat('fr-ca').format(this.state.datetra));
     //frmdata.append("datenhan", this.state.datenhan.toLocaleDateString());
     //frmdata.append("datetra", this.state.datetra.toLocaleDateString());
+    frmdata.append("datenhan", this.state.datenhan);
+    frmdata.append("datetra", this.state.datetra);
     frmdata.append("slphong", this.state.slphong);
     frmdata.append("songuoilon", this.state.songuoilon);
     frmdata.append("sotre", this.state.sotre);
@@ -71,16 +83,15 @@ export default class Room extends Component {
     frmdata.append("tong", this.state.tong);
     // console.log(frmdata.append("datenhan", new Intl.DateTimeFormat('fr-ca').format(this.state.datenhan)));
 
-    const url = "http://localhost:8081/doan/Ql_KhachSan_Client/DatPhong.php";
+    const url = "http://localhost:8081/doan/Ql_KhachSan_Client/backend/DatPhong.php";
 
     // Axios.post(url, frmdata).then(res => this.setState({thongbao: res.data})).catch(err => this.setState({thongbao:err}));
     Axios.post(url, frmdata).then(res => this.Hoantatdatphong(res.data)).catch(err => alert(err));
-    
   }
 
   componentDidMount() {
     // this.LayDsPhong();
-    Axios.get("http://localhost:8081/doan/Ql_KhachSan_Client/LietKePhong.php")
+    Axios.get("http://localhost:8081/doan/Ql_KhachSan_Client/backend/LietKePhong.php")
       .then(({ data }) => {
         if (data.success === 1) {
           this.setState({
@@ -99,6 +110,19 @@ export default class Room extends Component {
   onOut = () => {
     this.setState({ styleHover: null });
   };
+
+  handleDateNhan = (e)=>{
+    // console.log("e",convert(e));
+    this.setState({
+      datenhan: convert(e)
+    })
+  }
+  handleDateTra = (e)=>{
+    // console.log("e",convert(e));
+    this.setState({
+      datetra: convert(e)
+    })
+  }
 
   render() {
 
@@ -172,12 +196,16 @@ export default class Room extends Component {
                   <Col md={6}>
                     <h5>Check in date</h5>
                     <Calendar name="datenhan" value={this.state.datenhan}
-                              onChange={this.luuNhap} showIcon={true} />
+                              // onChange={this.luuNhap}
+                              onChange={(e)=>this.handleDateNhan(e.target.value)}
+                              showIcon={true} />
                   </Col>
                   <Col md={6}>
                     <h5>Check-out date</h5>
                     <Calendar name="datetra" value={this.state.datetra}
-                              onChange={this.luuNhap} showIcon={true} />
+                              //onChange={this.luuNhap}
+                              onChange={(e)=>this.handleDateTra(e.target.value)}
+                              showIcon={true} />
                   </Col>
                 </Row>
 
