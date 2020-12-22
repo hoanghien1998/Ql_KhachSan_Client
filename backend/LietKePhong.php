@@ -7,7 +7,10 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $db_conn = mysqli_connect("localhost","root","","qlkhachsan");
 
-$allrooms = mysqli_query($db_conn,"SELECT roomtype.id, roomtype.image, roomtype.name, roomtype.price FROM roomtype");
+$allrooms = mysqli_query($db_conn,"SELECT roomtype.id, roomtype.image, roomtype.name, roomtype.price, COUNT(room.id)as count_room 
+                                        FROM room,roomtype 
+                                        WHERE room.typeCode=roomtype.id and state='0' 
+                                        GROUP BY room.typeCode");
 
 
 if(mysqli_num_rows($allrooms) > 0){

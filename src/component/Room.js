@@ -4,13 +4,24 @@ import { Col, Row, Container } from "react-bootstrap";
 import { Calendar } from 'primereact/calendar';
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import "../common/costume.css";
+import Slider from "./Slider";
+import $ from 'jquery';
+window.$ = $;
 
 // ham convert ngay thang nam
 function convert(str) {
   var date = new Date(str),
-      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-      day = ("0" + date.getDate()).slice(-2);
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
   return [date.getFullYear(), mnth, day].join("-");
+}
+
+const getDayHT = () => {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const yy = today.getFullYear();
+  return `${yy}-${mm}-${dd}`;
 }
 
 export default class Room extends Component {
@@ -33,9 +44,14 @@ export default class Room extends Component {
       formState: 0,
       choseID: '',
       nametype: '',
+      item_price: '',
+      slPhong: '',
       tong: 0,
+      soluong: 1
     };
   }
+
+
 
   luuNhap = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -43,26 +59,24 @@ export default class Room extends Component {
   }
 
   // show modal for client booking room;
-  getModal(id, name) {
-    if(this.state.modalState === true)
-    {
-      this.setState({formState: 0});
+  getModal(id, name, price, count_room) {
+    if (this.state.modalState === true) {
+      this.setState({ formState: 0 });
     }
     this.state.modalState === true ? this.setState({ modalState: false }) : this.setState({ modalState: true });
-    this.setState({ choseID: id, nametype: name })
-    //console.log(id, name)
+    this.setState({ choseID: id, nametype: name, item_price: price, slPhong: parseInt(count_room, 10) })
+    // console.log(id, name, count_room)
   }
 
   Hoantatdatphong = (tb) => {
     alert(tb);
-    this.setState({formState: 0});
-    this.setState({ datenhan: null, datetra: null, slphong: 1, songuoilon: 1, sotre: 0, hoten: '', email: '', diachi: '', sdt: '', cmnd: '' });
+    this.setState({ datenhan: null, datetra: null, slphong: 1, songuoilon: 1, sotre: 0, hoten: '', email: '', diachi: '', sdt: '', cmnd: '', formState: 0, modalState: false });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     // const {datenhan} = this.state;
-     //console.log("state",this.state)
+    //console.log("state",this.state) ---> kiem tra state co nhung ttin gi
     // console.log("datenhan", typeof datenhan) ---> để kiểm tra xem ngày lưu xuống dạng gì
     let frmdata = new FormData();
     // dinh dang nam thang ngay, dinh dang gio quoc te,
@@ -81,17 +95,18 @@ export default class Room extends Component {
     frmdata.append("sdt", this.state.sdt);
     frmdata.append("cmnd", this.state.cmnd);
     frmdata.append("tong", this.state.tong);
+    frmdata.append("id", this.state.choseID);
+    frmdata.append("price", this.state.item_price);
     // console.log(frmdata.append("datenhan", new Intl.DateTimeFormat('fr-ca').format(this.state.datenhan)));
 
-    const url = "http://localhost:8081/doan/Ql_KhachSan_Client/backend/DatPhong.php";
+    const url = "/doan/Ql_KhachSan_Client/backend/DatPhong.php";
 
     // Axios.post(url, frmdata).then(res => this.setState({thongbao: res.data})).catch(err => this.setState({thongbao:err}));
     Axios.post(url, frmdata).then(res => this.Hoantatdatphong(res.data)).catch(err => alert(err));
   }
 
-  componentDidMount() {
-    // this.LayDsPhong();
-    Axios.get("http://localhost:8081/doan/Ql_KhachSan_Client/backend/LietKePhong.php")
+  LayDsPhong = () => {
+    Axios.get("/doan/Ql_KhachSan_Client/backend/LietKePhong.php")
       .then(({ data }) => {
         if (data.success === 1) {
           this.setState({
@@ -103,6 +118,10 @@ export default class Room extends Component {
         console.log(error);
       });
   }
+  componentDidMount() {
+    this.LayDsPhong();
+
+  }
 
   onHover = (id) => {
     this.setState({ styleHover: id });
@@ -111,21 +130,42 @@ export default class Room extends Component {
     this.setState({ styleHover: null });
   };
 
-  handleDateNhan = (e)=>{
-    // console.log("e",convert(e));
-    this.setState({
-      datenhan: convert(e)
-    })
+  handleDateNhan = (e) => {
+    console.log("e", convert(e));
+    let d1 = convert(e);
+    let da1 = d1.split('-');
+    let da2 = getDayHT().split('-');
+
+    if (parseInt(da1[1], 10) === parseInt(da2[1], 10) && parseInt(da1[2], 10) < parseInt(da2[2], 10)) {
+      $("#err_ngay_dat").show();
+      $("#err_ngay_dat").text("Ngày đặt phải lớn hơn hoặc bằng ngày hiện tại!!!");
+    } else {
+      $("#err_ngay_dat").hide();
+      this.setState({
+        datenhan: convert(e)
+      })
+    }
   }
-  handleDateTra = (e)=>{
-    // console.log("e",convert(e));
-    this.setState({
-      datetra: convert(e)
-    })
+  handleDateTra = (e) => {
+    let d1 = convert(e);
+    let da1 = d1.split('-');
+    let da2 = this.state.datenhan.split('-');
+    let da3 =  getDayHT().split('-');
+    if (parseInt(da1[1], 10) === parseInt(da2[1], 10) && parseInt(da1[2], 10) <parseInt(da3[2], 10)) {
+      $("#err_ngay_tra").show();
+      $("#err_ngay_tra").text("Ngày đặt phải lớn hơn hoặc bằng ngày hiện tại!!!");
+    }else if(parseInt(da1[1], 10) === parseInt(da2[1], 10) && parseInt(da1[2], 10) >= parseInt(da2[2], 10)){
+      $("#err_ngay_tra").show();
+      $("#err_ngay_tra").text("Ngày đặt phải lớn hơn hoặc bằng ngày hiện tại!!!");
+    } else {
+      $("#err_ngay_tra").hide();
+      this.setState({
+        datetra: convert(e)
+      })
+    }
   }
 
   render() {
-
     let rooms = this.state.listRoom.map((item, index) => {
       return (
         <Col md={4} key={index}>
@@ -157,7 +197,7 @@ export default class Room extends Component {
                 <Button
                   variant="danger"
                   style={{ borderRadius: "30px", marginTop: "5px" }}
-                  onClick={() => this.getModal(item.id, item.name)}
+                  onClick={() => this.getModal(item.id, item.name, item.price, item.count_room)}
                 >
                   Đặt phòng
                 </Button>
@@ -168,8 +208,10 @@ export default class Room extends Component {
       );
     });
     return (
+
       // style={{backgroundImage:'url(images/hinhnen8.jpg)'}}
       <div>
+        <Slider />
         <h1
           style={{
             textAlign: "center",
@@ -195,49 +237,53 @@ export default class Room extends Component {
                 <Row>
                   <Col md={6}>
                     <h5>Check in date</h5>
-                    <Calendar name="datenhan" value={this.state.datenhan}
-                              // onChange={this.luuNhap}
-                              onChange={(e)=>this.handleDateNhan(e.target.value)}
-                              showIcon={true} />
+                    <Calendar name="datenhan" dateFormat="dd/mm/yy" value={this.state.datenhan}
+                      // onChange={this.luuNhap}
+                      onChange={(e) => this.handleDateNhan(e.target.value)}
+                      showIcon={true} />
+                    <p style={{ color: "red", display: "none" }} id="err_ngay_dat" />
                   </Col>
-                  <Col md={6}>
-                    <h5>Check-out date</h5>
-                    <Calendar name="datetra" value={this.state.datetra}
-                              //onChange={this.luuNhap}
-                              onChange={(e)=>this.handleDateTra(e.target.value)}
-                              showIcon={true} />
-                  </Col>
+                  {
+                    this.state.datenhan && (
+                      <>
+                        <Col md={6}>
+                          <h5>Check-out date</h5>
+                          <Calendar name="datetra" dateFormat="dd/mm/yy" value={this.state.datetra}
+                            onChange={(e) => this.handleDateTra(e.target.value)}
+                            showIcon={true} />
+                        </Col>
+                        <p style={{ color: "red", display: "none" }} id="err_ngay_tra" />
+                      </>
+
+                    )
+                  }
+
                 </Row>
 
                 <Row style={{ marginTop: "30px" }}>
                   <Col md={6}>
                     <label style={{ marginRight: '5px' }}>Số lượng phòng</label>
-                    <select onChange={this.luuNhap} value={this.state.value} name="slphong">
-                      <option value="1"> 1 </option>
-                      <option value="2"> 2 </option>
-                      <option value="3"> 3 </option>
-                      <option value="4"> 4 </option>
-                      <option value="5"> 5 </option>
-                      <option value="6"> 6 </option>
-                      <option value="7"> 7 </option>
-                      <option value="8"> 8 </option>
-                      <option value="9"> 9 </option>
-                      <option value="10"> 10 </option>
-                      <option value="11"> 11 </option>
-                      <option value="12"> 12 </option>
-                      <option value="13"> 13 </option>
-                      <option value="14"> 14 </option>
+                    <select
+                      onChange={(e) => this.luuNhap(e)}
+                      value={this.state.value}
+                      name="slphong">
+                      {
+                        this.state.slPhong ? ([...Array(this.state.slPhong).keys()].map((item) => (
+                          <option key={item} value={item + 1}> {item + 1} </option>
+                        ))) : 0
+                      }
+
                     </select>
                   </Col>
-                  
+
                   <Col md={6}>
                     <label>Tổng tiền</label>
-                    <input type="hidden" name="tong" value = {this.state.tong}/><br></br>
+                    <input type="hidden" name="tong" value={this.state.tong} /><br></br>
                     {this.state.tong}$
                   </Col>
                 </Row>
                 <Row style={{ marginTop: "30px" }}>
-                <Col md={6}>
+                  <Col md={6}>
                     <label style={{ marginRight: '5px' }}>Số người lớn</label>
                     <select onChange={this.luuNhap} value={this.state.value} name="songuoilon">
                       <option value="1"> 1 </option>
@@ -275,7 +321,7 @@ export default class Room extends Component {
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Name</Form.Label>
                           <Form.Control type="text" placeholder="Enter name"
-                                        onChange={this.luuNhap} name="hoten" value={this.state.hoten} />
+                            onChange={this.luuNhap} name="hoten" value={this.state.hoten} />
 
                         </Form.Group>
                       </Col>
@@ -283,7 +329,7 @@ export default class Room extends Component {
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label> Email</Form.Label>
                           <Form.Control type="email" placeholder="Enter email"
-                                        onChange={this.luuNhap} name="email" value={this.state.email} />
+                            onChange={this.luuNhap} name="email" value={this.state.email} />
 
                         </Form.Group>
                       </Col>
@@ -293,7 +339,7 @@ export default class Room extends Component {
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Identity card</Form.Label>
                           <Form.Control type="text" placeholder="Enter identity card"
-                                        onChange={this.luuNhap} name="cmnd" value={this.state.cmnd} />
+                            onChange={this.luuNhap} name="cmnd" value={this.state.cmnd} />
 
                         </Form.Group>
                       </Col>
@@ -302,7 +348,7 @@ export default class Room extends Component {
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Phone number</Form.Label>
                           <Form.Control type="text" placeholder="Enter phone"
-                                        onChange={this.luuNhap} name="sdt" value={this.state.sdt} />
+                            onChange={this.luuNhap} name="sdt" value={this.state.sdt} />
 
                         </Form.Group>
                       </Col>
@@ -313,7 +359,7 @@ export default class Room extends Component {
                         <Form.Group controlId="formBasicEmail">
                           <Form.Label>Address</Form.Label>
                           <Form.Control type="text" placeholder="Enter address"
-                                        onChange={this.luuNhap} name="diachi" value={this.state.diachi} />
+                            onChange={this.luuNhap} name="diachi" value={this.state.diachi} />
 
                         </Form.Group>
 
@@ -325,19 +371,19 @@ export default class Room extends Component {
                 </Row>
               </Container>}
             <Button variant="primary"
-                    onClick={() => { this.state.formState === 0 ? this.setState({ formState: 1 }) : this.setState({ formState: 0 }) }}
-                    style={{ marginLeft: "400px" }}>
+              onClick={() => { this.state.formState === 0 ? this.setState({ formState: 1 }) : this.setState({ formState: 0 }) }}
+              style={{ marginLeft: "400px" }}>
               {this.state.formState === 0 ? "Next" : "Back"}
             </Button>
           </Modal.Body>
           <Modal.Footer>
 
             <Button variant="success" hidden={this.state.formState === 0 ? true : false}
-                    onClick={this.handleSubmit} >
+              onClick={this.handleSubmit} >
               Booking Room
             </Button>
             <Button variant="secondary" hidden={this.state.formState === 0 ? true : false}
-                    onClick={() => this.getModal()}>
+              onClick={() => this.getModal()}>
               Close
           </Button>
           </Modal.Footer>

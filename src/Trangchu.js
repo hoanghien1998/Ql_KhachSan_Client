@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {Container} from 'react-bootstrap';
 import { BrowserRouter} from 'react-router-dom';
-import Slider from './component/Slider';
 import Menu1 from './component/Menu1';
 
 import Footer from './component/Footer';
@@ -36,7 +35,7 @@ export default class Trangchu extends Component {
         <Container fluid style={{margin:'0',padding:'0'}}>
             {/* <Menu1 setdirect={this.setdirect}/> */}
             <Menu1/>
-            <Slider/>
+
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/rooms" component={Room}/>
