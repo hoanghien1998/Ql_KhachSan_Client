@@ -16,6 +16,7 @@ function convert(str) {
   return [date.getFullYear(), mnth, day].join("-");
 }
 
+//  Ham lay ra ngay thang nam tien hanh so sanh
 const getDayHT = () => {
   const today = new Date();
   const dd = String(today.getDate()).padStart(2, '0');
@@ -99,14 +100,14 @@ export default class Room extends Component {
     frmdata.append("price", this.state.item_price);
     // console.log(frmdata.append("datenhan", new Intl.DateTimeFormat('fr-ca').format(this.state.datenhan)));
 
-    const url = "/doan/Ql_KhachSan_Client/backend/DatPhong.php";
+    const url = "/doan/Ql_KhachSan_Client/backend/Room/DatPhong.php";
 
-    // Axios.post(url, frmdata).then(res => this.setState({thongbao: res.data})).catch(err => this.setState({thongbao:err}));
+    // Axios.post(url, frmdata).then(res => this.setState({thongbao: res.config})).catch(err => this.setState({thongbao:err}));
     Axios.post(url, frmdata).then(res => this.Hoantatdatphong(res.data)).catch(err => alert(err));
   }
 
   LayDsPhong = () => {
-    Axios.get("/doan/Ql_KhachSan_Client/backend/LietKePhong.php")
+    Axios.get("/doan/Ql_KhachSan_Client/backend/Room/LietKePhong.php")
       .then(({ data }) => {
         if (data.success === 1) {
           this.setState({
@@ -133,30 +134,45 @@ export default class Room extends Component {
   handleDateNhan = (e) => {
     console.log("e", convert(e));
     let d1 = convert(e);
-    let da1 = d1.split('-');
-    let da2 = getDayHT().split('-');
+    // Ngay nguoi dung nhap
+    let ngNhap = d1.split('-');
+    // Ngay hien tai cua he thong
+    let ngHt = getDayHT().split('-');
 
-    if (parseInt(da1[1], 10) === parseInt(da2[1], 10) && parseInt(da1[2], 10) < parseInt(da2[2], 10)) {
+    if ( parseInt(ngNhap[0], 10) === parseInt(ngHt[0], 10)
+        && parseInt(ngNhap[1], 10) === parseInt(ngHt[1], 10)
+        && parseInt(ngNhap[2], 10) < parseInt(ngHt[2], 10)) {
       $("#err_ngay_dat").show();
-      $("#err_ngay_dat").text("Ngày đặt phải lớn hơn hoặc bằng ngày hiện tại!!!");
-    } else {
+      $("#err_ngay_dat").text("Ngày đặt phòng phải lớn hơn hoặc bằng ngày hiện tại!!!");
+    }
+    else if ( parseInt(ngNhap[0], 10) === parseInt(ngHt[0], 10)
+        && parseInt(ngNhap[1], 10) < parseInt(ngHt[1], 10)) {
+      $("#err_ngay_dat").show();
+      $("#err_ngay_dat").text(" Tháng đặt phòng phải lớn hơn hoặc bằng tháng hiện tại!!!");
+
+      }
+    else {
       $("#err_ngay_dat").hide();
       this.setState({
         datenhan: convert(e)
-      })
+    })
     }
   }
   handleDateTra = (e) => {
     let d1 = convert(e);
-    let da1 = d1.split('-');
-    let da2 = this.state.datenhan.split('-');
-    let da3 =  getDayHT().split('-');
-    if (parseInt(da1[1], 10) === parseInt(da2[1], 10) && parseInt(da1[2], 10) <parseInt(da3[2], 10)) {
+    let ngNhap = d1.split('-');
+    let ngNhan = this.state.datenhan.split('-');
+    console.log(ngNhan);
+    console.log(ngNhap);
+    if (parseInt(ngNhap[0], 10) === parseInt(ngNhan[0], 10) &&
+        parseInt(ngNhap[1], 10) === parseInt(ngNhan[1], 10) &&
+        parseInt(ngNhap[2], 10) < parseInt(ngNhan[2], 10)) {
       $("#err_ngay_tra").show();
-      $("#err_ngay_tra").text("Ngày đặt phải lớn hơn hoặc bằng ngày hiện tại!!!");
-    }else if(parseInt(da1[1], 10) === parseInt(da2[1], 10) && parseInt(da1[2], 10) >= parseInt(da2[2], 10)){
+      $("#err_ngay_tra").text("Ngày trả phòng lớn hơn hoặc bằng ngày nhận phòng!!!");
+    }else if(parseInt(ngNhap[0], 10) === parseInt(ngNhan[0], 10) &&
+        parseInt(ngNhap[1], 10) < parseInt(ngNhan[1], 10)){
       $("#err_ngay_tra").show();
-      $("#err_ngay_tra").text("Ngày đặt phải lớn hơn hoặc bằng ngày hiện tại!!!");
+      $("#err_ngay_tra").text("Tháng trả phòng phải lớn hơn hoặc bằng tháng nhận phòng!!!");
     } else {
       $("#err_ngay_tra").hide();
       this.setState({
@@ -236,7 +252,7 @@ export default class Room extends Component {
               <Container>
                 <Row>
                   <Col md={6}>
-                    <h5>Check in date</h5>
+                    <h5>Ngày nhận phòng</h5>
                     <Calendar name="datenhan" dateFormat="dd/mm/yy" value={this.state.datenhan}
                       // onChange={this.luuNhap}
                       onChange={(e) => this.handleDateNhan(e.target.value)}
@@ -247,7 +263,7 @@ export default class Room extends Component {
                     this.state.datenhan && (
                       <>
                         <Col md={6}>
-                          <h5>Check-out date</h5>
+                          <h5>Ngày trả phòng</h5>
                           <Calendar name="datetra" dateFormat="dd/mm/yy" value={this.state.datetra}
                             onChange={(e) => this.handleDateTra(e.target.value)}
                             showIcon={true} />

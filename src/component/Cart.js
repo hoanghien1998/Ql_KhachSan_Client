@@ -54,7 +54,7 @@ export default class Cart extends Component {
     //     //frm.append("gia",this.state.thanhtien);
     //     frm.append("soluong",items[item_index].soluong);
     //     var url ="http://localhost:8081/doan/Capnhatgiohang.php";
-    //     Axios.post(url).then(res =>alert(res.data)).catch(err => alert(err));
+    //     Axios.post(url).then(res =>alert(res.config)).catch(err => alert(err));
     //     // console.log(items[item_index].soluong);
     // }
     TangGiamSoLuong = (item_index, method)=>{

@@ -3,7 +3,6 @@ import Room from './Room';
 // import Restaurant from './Restaurant';
 import About from './About';
 import Contact from './Contact'
-import Slider from "./Slider";
 
 
 export default class Home extends Component {
