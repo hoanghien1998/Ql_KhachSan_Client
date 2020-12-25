@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
-import {Container} from 'react-bootstrap';
-import { BrowserRouter} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Container } from 'react-bootstrap';
+import { BrowserRouter } from 'react-router-dom';
 import Menu1 from './component/Menu1';
-
 import Footer from './component/Footer';
-import { Route, Switch} from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import Home from './component/Home';
 import Room from './component/Room';
 import Restaurant from './component/Restaurant';
@@ -13,42 +12,46 @@ import Contact from './component/Contact';
 import Login from './component/Login';
 import Register from './component/Register';
 
-export default class Trangchu extends Component {
-    // constructor(){
-    //     super();
-    //     this.state ={
-    //       direct: false
-    //     }
-    //   }
-    //   setdirect = () =>{
-    //     this.setState ({direct:true})
-    //   }
-    
-    //   renderdirect = () => {
-    //     if(this.state.direct)
-    //       return <Redirect to = "/"/>
-    //   }
-    render() {
-        return (
-        <BrowserRouter>
-        {/* {this.renderdirect()} */}
-        <Container fluid style={{margin:'0',padding:'0'}}>
-            {/* <Menu1 setdirect={this.setdirect}/> */}
-            <Menu1/>
 
-            <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/rooms" component={Room}/>
-                <Route exact path="/restaurant" component={Restaurant}/>
-                <Route exact path="/about" component={About}/>
-                <Route exact path="/contact" component={Contact}/>
-                <Route exact path="/login" component={Login}/>
-                <Route exact path="/register" component={Register}/>
-            </Switch>        
-            <Footer/>
-            
-        </Container>
-    </BrowserRouter>
-        )
+function Trangchu(props) {
+    const [token, setToken] = useState(
+        localStorage.getItem('token') ? localStorage.getItem('token') : ""
+    );
+
+    const [rooms, setRooms] = useState(
+        localStorage.getItem('room') ? localStorage.getItem('room') : [],
+    );
+
+    const handleGetToken = (e) => {
+        setToken(e);
     }
+
+    const handleAddRoom = (e) => {
+        console.log("e by handleAddRoom", e);
+    }
+
+    return (
+        <BrowserRouter>
+            <Container fluid style={{ margin: '0', padding: '0' }}>
+                <Menu1 token={token} />
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/rooms">
+                        <Room token={token} handleAddRoom={(e) => handleAddRoom(e)} />
+                    </Route>
+                    <Route exact path="/restaurant" component={Restaurant} />
+                    <Route exact path="/about" component={About} />
+                    <Route exact path="/contact" component={Contact} />
+                    <Route exact path="/login">
+                        <Login handleGetToken={(e) => handleGetToken(e)} />
+                    </Route>
+                    <Route exact path="/register" component={Register} />
+                </Switch>
+                <Footer />
+
+            </Container>
+        </BrowserRouter>
+    );
 }
+
+export default Trangchu;
