@@ -16,7 +16,7 @@ function Menu1(props) {
     // };
     return (
         <Navbar bg="light" expand="lg" className="sticky-top">
-            <Navbar.Brand href="#home" style={{
+            <Navbar.Brand href="/" style={{
                 marginLeft: "50px",
                 fontFamily: "Poppins",
                 fontWeight: "bold",

@@ -19,26 +19,34 @@ function Trangchu(props) {
     );
 
     const [rooms, setRooms] = useState(
-        localStorage.getItem('room') ? localStorage.getItem('room') : [],
+        localStorage.getItem('room') ? JSON.parse(localStorage.getItem('room')) : [],
     );
 
     const handleGetToken = (e) => {
         setToken(e);
     }
 
-    const handleAddRoom = (e) => {
-        console.log("e by handleAddRoom", e);
+    const handleAddToCart = (data) => {
+        const listRoom = rooms.slice();
+        const x = listRoom.find((x) => x.choseID.toString() === data.choseID.toString());
+        if (typeof (x) === 'undefined') {
+            listRoom.push(data);
+        }
+        localStorage.setItem('room', JSON.stringify(listRoom));
+        setRooms(listRoom);
     }
+
 
     return (
         <BrowserRouter>
             <Container fluid style={{ margin: '0', padding: '0' }}>
                 <Menu1 token={token} />
                 <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/rooms">
-                        <Room token={token} handleAddRoom={(e) => handleAddRoom(e)} />
+                    {/* <Route exact path="/" component={Home} /> */}
+                    <Route exact path="/" >
+                        <Home token={token} handleAddToCart={(e) => handleAddToCart(e)} />
                     </Route>
+                    <Route exact path="/rooms" component={Room} />
                     <Route exact path="/restaurant" component={Restaurant} />
                     <Route exact path="/about" component={About} />
                     <Route exact path="/contact" component={Contact} />
@@ -46,9 +54,9 @@ function Trangchu(props) {
                         <Login handleGetToken={(e) => handleGetToken(e)} />
                     </Route>
                     <Route exact path="/register" component={Register} />
+                    {/* <Route exact path="/chi-tiet/:id" component={Register} /> */}
                 </Switch>
                 <Footer />
-
             </Container>
         </BrowserRouter>
     );
