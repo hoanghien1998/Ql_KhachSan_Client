@@ -76,7 +76,7 @@ else:
                     $returnData = [
                         'success' => 1,
                         'message' => 'You have successfully logged in.',
-                        'token' => $token
+                        'token' => $token,
                     ];
 
                 // IF INVALID PASSWORD

@@ -56,16 +56,26 @@ function Menu1(props) {
                     }}>
                         Contact
         </Nav.Link>
-
+                    <Nav.Link href="detail_book" style={{
+                        marginLeft: "50px",
+                        fontFamily: "Poppins",
+                        fontWeight: "bold",
+                    }}>
+                        Detail_Book
+                    </Nav.Link>
                     {props.token.length > 0 ? (
                         <Button onClick={() => {
                             localStorage.clear();
                             history.push("/");
-                        }} variant="outline-info">Logout</Button>
+                        }} variant="outline-info" style={{
+                            marginLeft: "180px",
+                            fontFamily: "Poppins",
+                            fontWeight: "bold",
+                        }}>Logout</Button>
                     ) : (
                             <>
                                 <Nav.Link href="login" style={{
-                                    marginLeft: "250px",
+                                    marginLeft: "100px",
                                     fontFamily: "Poppins",
                                     fontWeight: "bold",
                                 }}>

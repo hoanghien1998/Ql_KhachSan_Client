@@ -6,7 +6,7 @@ import { Card, Button, Modal } from "react-bootstrap";
 import "../common/costume.css";
 import Slider from "./Slider";
 import $ from "jquery";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 window.$ = $;
 
 // ham convert ngay thang nam
@@ -40,29 +40,30 @@ const Room = (props) => {
   const [nametype, setNametype] = useState("");
   const [item_price, setItem_price] = useState("");
   const [slPhong, setSlPhong] = useState("");
-  const [hoten, setHoten] = useState("");
-  const history = useHistory();
-  const [tong, setTong] = useState(0);
-  const [soluong, setSoluong] = useState(1);
+  const [image, setImage] = useState("");
+  // const [hoten, setHoten] = useState("");
+  // const history = useHistory();
+  // const [tong, setTong] = useState(0);
+  // const [soluong, setSoluong] = useState(1);
 
-  const getModal = (id, name, price, count_room) => {
+  const getModal = (id, name, price, count_room, image_room) => {
     modalState === true ? setModalState(false) : setModalState(true);
     setChoseID(id);
     setNametype(name);
     setItem_price(price);
+    setImage(image_room);
     setSlPhong(parseInt(count_room, 10));
   };
 
-  const Hoantatdatphong = (tb) => {
-    alert(tb);
-    setDatenhan(null);
-    setDatetra(null);
-    setSlphong(1);
-    setSonguoilon(1);
-    setSotre(1);
-    setHoten("");
-    setModalState(false);
-  };
+  // const Hoantatdatphong = (tb) => {
+  //   alert(tb);
+  //   setDatenhan(null);
+  //   setDatetra(null);
+  //   setSlphong(1);
+  //   setSonguoilon(1);
+  //   setSotre(1);
+  //   setModalState(false);
+  // };
 
   const handleSubmit = () => {
     // if (!props.token) {
@@ -75,9 +76,11 @@ const Room = (props) => {
       nametype,
       datenhan,
       datetra,
-      slphong,
+      slphong: parseInt(slphong, 10),
       songuoilon,
-      sotre
+      sotre,
+      slPhong,
+      image
     }
     // console.log("newCart", newCart);
     props.handleAddToCart(newCart);
@@ -110,7 +113,7 @@ const Room = (props) => {
   };
 
   const handleDateNhan = (e) => {
-    console.log("e", convert(e));
+    // console.log("e", convert(e));
     let d1 = convert(e);
     // Ngay nguoi dung nhap
     let ngNhap = d1.split("-");
@@ -214,7 +217,8 @@ const Room = (props) => {
                             item.id,
                             item.name,
                             item.price,
-                            item.count_room
+                            item.count_room,
+                            item.image
                           )
                         }
                       >
