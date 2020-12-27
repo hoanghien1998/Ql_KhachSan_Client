@@ -72,11 +72,12 @@ else:
                         'localhost:8081/doan/Ql_KhachSan_Client/backend/',
                         array("user_id"=> $row['cus_code'])
                     );
-                    
+                    unset($row['password']);
                     $returnData = [
                         'success' => 1,
                         'message' => 'You have successfully logged in.',
                         'token' => $token,
+                        'user'=>$row
                     ];
 
                 // IF INVALID PASSWORD
