@@ -22,10 +22,12 @@ function Trangchu(props) {
         localStorage.getItem("room") ? JSON.parse(localStorage.getItem("room")) : []
     );
 
+    // Xử lý lấy cái token
     const handleGetToken = (e) => {
         setToken(e);
     };
 
+    // Lưu cái thông tin khi đặt phòng xuống localStorage.
     const handleAddToCart = (data) => {
         const listRoom = rooms.slice();
         const x = listRoom.find(
@@ -38,6 +40,7 @@ function Trangchu(props) {
         setRooms(listRoom);
     };
 
+    // Xử lý nút xóa trong giỏ đặt phòng.
     const handleDeleteRoom = (id) => {
         // console.log("item", item);
         const listRoom = rooms.slice();
@@ -45,6 +48,8 @@ function Trangchu(props) {
         localStorage.setItem("room", JSON.stringify(data));
         setRooms(data);
     };
+
+    // Xử lý nút trừ trong giỏ đặt phòng.
     const handlePlustQtyRoom = (item) => {
         console.log("item", item);
         let listRoom = rooms.slice();
@@ -60,6 +65,7 @@ function Trangchu(props) {
         setRooms(listRoom);
     };
 
+    // Xử lý nút trừ trong giỏ đặt phòng.
     const handleMinustQtyRoom = (item) => {
         // console.log("item", item);
         let listRoom = rooms.slice();

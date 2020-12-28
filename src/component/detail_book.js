@@ -16,7 +16,7 @@ function Detail_Book(props) {
     const { rooms, token } = props;
      // console.log("rooms", rooms);
 
-
+    // Tính số ngày thông qua ngày nhận và ngày trả phòng
     const handleTinhNgay = (datenhan, datetra) => {
         const d1 = new Date(datenhan).getTime();
         const d2 = new Date(datetra).getTime();
@@ -30,6 +30,7 @@ function Detail_Book(props) {
         return `${data[2]}-${data[1]}-${data[0]}`
     }
 
+    // Xử lý gửi cái giỏ xuống backend
     const handleSendCart = () => {
         var frm = new FormData();
         frm.append("rooms",JSON.stringify(rooms));
@@ -40,25 +41,11 @@ function Detail_Book(props) {
 
         })
             .catch(err => console.log(err));
-        // fetch("http://localhost:8081/doan/Ql_KhachSan_Client/backend/Room/DatPhong.php", {
-        //     method: "POST",
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'token':token
-        //     },
-        //     body: JSON.stringify({
-        //         rooms
-        //     })
-        // })
-        //     .then((res) => res.json())
-        //     .then((res) => console.log(res))
-        //     .catch(err => console.log(err));
-
     }
 
     return (
         <div>
-            <Container>
+            <Container style={{ height: "350px"}}>
                 <Row>
                     <Col md={12}>
                         <div
@@ -164,13 +151,13 @@ function Detail_Book(props) {
                             style={{ marginLeft: "300px", marginTop: "50px" }}
                             onClick={() => handleSendCart()}
                         >
-                            ORDER
+                            Xác nhận đơn đặt phòng
             </Button>
                         <Button
                             variant="primary"
                             style={{ marginLeft: "300px", marginTop: "50px" }}
                         >
-                            CANCEL CART
+                            Hủy đơn
             </Button>
                     </Col>
                 </Row>

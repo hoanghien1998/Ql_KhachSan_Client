@@ -9,17 +9,29 @@ function About(props) {
     }
     return (
         <div>
-            <h1 style={{ textAlign: "center", marginTop: '50px', fontFamily: 'Playfair Display', fontStyle: 'italic' }}>About us</h1>
+            <h1 style={{ textAlign: "center",
+                    marginTop: '50px',
+                    fontFamily: 'Playfair Display',
+                    fontStyle: 'italic' }}>Giới thiệu của khách sạn</h1>
             <Container>
                 <Row>
                     <Col md={6}>
                         <img src="images/about.jpg" alt="" width="400px" height="80%" style={dd} />
                     </Col>
                     <Col md={6}>
-                        <h5 style={{ textAlign: "center", marginTop: '50px', color: '#bd9d1b' }}>Welcome to Roxandrea Hotel</h5>
-                        <h2 style={{ textAlign: "center", marginTop: '10px' }}>Welcome To Our Hotel</h2>
-                        <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
-                        <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way.</p>
+                        <h5 style={{ textAlign: "center", marginTop: '50px', color: '#bd9d1b' }}>
+                            Chào mừng bạn đến với khách sạn Roxandrea</h5>
+                        <h2 style={{ textAlign: "center", marginTop: '10px' }}>Chào mừng bạn đã đến với khách sạn của chúng tôi</h2>
+                        <p>
+                            Khách sạn chúng tôi phục đầy đủ các loại phòng thương gia, đầy đủ các loại phòng có view đẹp. Ngoài các loại phòng thương gia,
+                            thì cũng có các phòng đôi, phòng đơn với đầy đủ tiện nghi sẵn sàng phục vụ quý khách. Là một khách sạn gần biển,
+                            quý khách sẽ tiện ra biển và đảo trên Vĩnh Hy.
+                        </p>
+                        <p>
+                            Ngoài ra khách sạn gần với các nhà hàng hải sản lớn, phục vụ hải sản tươi sống thơm ngon. Gần cạnh những spa, khu vụ
+                            làm đẹp và chăm sóc da. Đi chơi nhưng chúng ta không quên vấn đề làm đẹp.
+                            Với đầy đủ tiện nghi và tiện ích khách sạn Roxandrea rất hân hạnh được phục vụ quý khách.
+                        </p>
                     </Col>
                 </Row>
             </Container>

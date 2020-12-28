@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom"
+import { Button} from "react-bootstrap";
 import "../common/login.css";
 import Axios from 'axios';
 import $ from 'jquery';
@@ -60,7 +61,6 @@ function Login(props) {
     return (
         <div className="_loginRegister">
             <h1>Login</h1>
-            {/* <form noValidate onSubmit={(e) => this.handleLogin(e)}> */}
             <div className="form-control">
                 <label>Email</label>
                 <input
@@ -89,9 +89,8 @@ function Login(props) {
             <div className="form-control">
                 <button onClick={() => handleLogin()} type="submit">Login</button>
             </div>
-            {/* </form> */}
             <div className="_navBtn">
-                <Link to="/register" >Register</Link>
+                <Button><Link to="/register" style={{color: 'white', hover:'#008B8B'}} >Register</Link></Button>
             </div>
         </div>
     );

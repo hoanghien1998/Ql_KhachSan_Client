@@ -46,6 +46,7 @@ const Room = (props) => {
   // const [tong, setTong] = useState(0);
   // const [soluong, setSoluong] = useState(1);
 
+  // Lấy dữ liệu để hiể thị lên modal đặt phòng
   const getModal = (id, name, price, count_room, image_room) => {
     modalState === true ? setModalState(false) : setModalState(true);
     setChoseID(id);
@@ -83,10 +84,13 @@ const Room = (props) => {
       image
     }
     // console.log("newCart", newCart);
+
+    // Truyền cái cart đến trang homwe, rồi đến trang chủ.
     props.handleAddToCart(newCart);
     // console.log("props", props.token);
   };
 
+  // Hiển thị danh sách các phòng lên
   const LayDsPhong = () => {
     Axios.get("/doan/Ql_KhachSan_Client/backend/Room/LietKePhong.php")
       .then(({ data }) => {
@@ -176,6 +180,7 @@ const Room = (props) => {
     }
   };
 
+  // Get list room to show display
   const handleGetList = (listRoom) => {
     return (
       <>
@@ -248,7 +253,7 @@ const Room = (props) => {
           fontStyle: "italic",
         }}
       >
-        Hotel Master's Rooms
+        Phòng của khách sạn
     </h1>
       <Container>
         <Row>{listRoom && handleGetList(listRoom)}</Row>

@@ -10,15 +10,15 @@ export default class Slider extends Component {
                     <img src="/images/bg_1.jpg" alt="First slide" width="100%" height="450px"/>
                     <Carousel.Caption>
                     <h3 style={{color:'white'}}>Roxandrea </h3>
-                    <p style={{color:'white'}}>More than a hotel... an experience </p>
+                    <p style={{color:'white', fontSize:'18pt'}}>Du thuyền trên vịnh Vĩnh Hy, ngắm san hô và tắm biển Bà Điên </p>
                     </Carousel.Caption>
                 </Carousel.Item>
 
                 <Carousel.Item>
                     <img src="/images/bg_2.jpg" alt="First slide" width="100%" height="450px"/>
                     <Carousel.Caption>
-                    <h3 style={{color:'white'}}>Experience Epic Beauty</h3>
-                    <p style={{color:'white'}}>Roxandrea Hotel &amp; Resort </p>
+                    <h3 style={{color:'white'}}>Khách sạn Roxandrea</h3>
+                    <p style={{color:'white'}}>Khách sạn Roxandrea &amp; Resort </p>
                     </Carousel.Caption>
                 </Carousel.Item>
 

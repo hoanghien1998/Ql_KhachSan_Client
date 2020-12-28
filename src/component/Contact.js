@@ -17,7 +17,7 @@ function Contact(props) {
                     fontStyle: "italic",
                 }}
             >
-                Contact us
+               Liên hệ với chúng tôi
       </h1>
             <Container>
                 <Row>
@@ -38,7 +38,7 @@ function Contact(props) {
                                 value={value2}
                                 onChange={(e) => setValue2(e.target.value)}
                             />
-                            <label htmlFor="float-input">Username</label>
+                            <label htmlFor="float-input">Tên</label>
                         </span>
                         <span className="p-float-label" style={{ marginTop: "20px" }}>
                             <InputText
@@ -48,7 +48,7 @@ function Contact(props) {
                                 value={value2}
                                 onChange={(e) => setValue2(e.target.value)}
                             />
-                            <label htmlFor="float-input">Your email</label>
+                            <label htmlFor="float-input">Email</label>
                         </span>
                         <span className="p-float-label" style={{ marginTop: "20px" }}>
                             <InputText
@@ -58,10 +58,10 @@ function Contact(props) {
                                 value={value2}
                                 onChange={(e) => setValue2(e.target.value)}
                             />
-                            <label htmlFor="float-input">subject</label>
+                            <label htmlFor="float-input">Tiêu đề</label>
                         </span>
                         <div style={{ marginTop: "10px" }}>
-                            <label>Message</label>
+                            <label>Nội dung tin nhắn</label>
                             <br></br>
                             <InputTextarea
                                 rows={5}
@@ -69,7 +69,7 @@ function Contact(props) {
                                 autoResize={true}
                             ></InputTextarea>
                         </div>
-                        <Button variant="primary">Send message</Button>{" "}
+                        <Button variant="primary">Gửi tin nhắn</Button>{" "}
                         {/* <form>
                              <input type="text" placeholder="Your name" name="name" marginTop="20px" width="300px"></input>
                              <br></br>

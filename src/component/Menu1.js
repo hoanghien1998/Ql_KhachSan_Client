@@ -1,6 +1,6 @@
 import React from "react";
-import { Navbar, Nav, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import {Navbar, Nav, Button} from "react-bootstrap";
+import {useHistory} from "react-router-dom";
 
 function Menu1(props) {
     const history = useHistory();
@@ -17,51 +17,55 @@ function Menu1(props) {
     return (
         <Navbar bg="light" expand="lg" className="sticky-top">
             <Navbar.Brand href="/" style={{
-                marginLeft: "50px",
+                marginLeft: "30px",
                 fontFamily: "Poppins",
                 fontWeight: "bold",
             }}>
                 ROXANDREA
-    </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto" style={{ marginLeft: "200px" }}>
+                <Nav className="mr-auto" style={{marginLeft: "130px"}}>
                     <Nav.Link href="/" style={{
-                        marginLeft: "50px",
+                        marginTop: "8px",
                         fontFamily: "Poppins",
                         fontWeight: "bold",
                     }}>
-                        Home
-        </Nav.Link>
+                        TRANG CHỦ
+                    </Nav.Link>
                     {/* <Nav.Link href="bookroom" style={dd}>BookRoom</Nav.Link> */}
                     <Nav.Link href="rooms" style={{
-                        marginLeft: "50px",
+                        marginLeft: "30px",
+                        marginTop: "8px",
                         fontFamily: "Poppins",
                         fontWeight: "bold",
                     }}>
-                        Rooms
-        </Nav.Link>
+                        PHÒNG
+                    </Nav.Link>
                     {/* <Nav.Link href="restaurant" style={dd}>Restaurant</Nav.Link> */}
                     <Nav.Link href="about" style={{
-                        marginLeft: "50px",
+                        marginLeft: "30px",
+                        marginTop: "8px",
                         fontFamily: "Poppins",
                         fontWeight: "bold",
                     }}>
-                        About
-        </Nav.Link>
+                        GIỚI THIỆU
+                    </Nav.Link>
                     <Nav.Link href="contact" style={{
-                        marginLeft: "50px",
+                        marginLeft: "30px",
+                        marginTop: "8px",
                         fontFamily: "Poppins",
                         fontWeight: "bold",
                     }}>
-                        Contact
-        </Nav.Link>
+                        LIÊN HỆ
+                    </Nav.Link>
                     <Nav.Link href="detail_book" style={{
-                        marginLeft: "50px",
+                        marginLeft: "30px",
+                        marginTop: "8px",
                         fontFamily: "Poppins",
                         fontWeight: "bold",
                     }}>
-                        Detail_Book
+                        CHI TIẾT ĐẶT PHÒNG
                     </Nav.Link>
                     {props.token.length > 0 ? (
                         <Button onClick={() => {
@@ -71,26 +75,30 @@ function Menu1(props) {
                             marginLeft: "180px",
                             fontFamily: "Poppins",
                             fontWeight: "bold",
-                        }}>Logout</Button>
+                        }}>Đăng xuất</Button>
                     ) : (
-                            <>
-                                <Nav.Link href="login" style={{
-                                    marginLeft: "100px",
-                                    fontFamily: "Poppins",
-                                    fontWeight: "bold",
-                                }}>
-                                    {" "}
-                                    <Button variant="outline-info">Login</Button>{" "}
-                                </Nav.Link>
-                                <Nav.Link href="register" style={{ marginLeft: "10px" }}>
-                                    {" "}
-                                    <Button variant="outline-info">Register</Button>{" "}
-                                </Nav.Link>
-                            </>
-                        )}
+                        <>
+                            <Nav.Link href="login" style={{
+                                marginLeft: "80px",
+                                fontFamily: "Poppins",
+                                fontWeight: "bold",
+                            }}>
+                                {" "}
+                                <Button variant="outline-info">Đăng nhập</Button>{" "}
+                            </Nav.Link>
+                            <Nav.Link href="register" style={{
+                                marginLeft: "30px",
+                                fontFamily: "Poppins",
+                                fontWeight: "bold",
+                            }}>
+                                {" "}
+                                <Button variant="outline-info">Đăng ký</Button>{" "}
+                            </Nav.Link>
+                        </>
+                    )}
                 </Nav>
             </Navbar.Collapse>
-        </Navbar >
+        </Navbar>
     );
 }
 
