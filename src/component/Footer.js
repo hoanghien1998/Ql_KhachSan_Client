@@ -20,7 +20,7 @@ export default class Footer extends Component {
                         <Col md={6}>
                             <div style={{marginLeft:'50px'}}>
                                 <h2>Thông tin liên hệ</h2>
-                                <p><i className="fas fa-map-marker-alt"></i> 32 QUang Trung, Vĩnh Hy, Ninh Hải, Ninh Thuận</p>
+                                <p><i className="fas fa-map-marker-alt"></i> 32 Quang Trung, Vĩnh Hy, Ninh Hải, Ninh Thuận</p>
                                 <p><i className="fas fa-phone-square-alt"></i> +2 392 3929 210</p>
                                 <p><i className="far fa-envelope-open"></i> info@yourdomain.com</p>
                             </div>

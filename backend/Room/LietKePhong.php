@@ -1,5 +1,4 @@
 <?php
-include_once '../config/database.php';
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: access");
 header("Access-Control-Allow-Methods: GET");
@@ -18,7 +17,7 @@ $allrooms = mysqli_query($db_conn,"SELECT roomtype.id, roomtype.image, roomtype.
 if(mysqli_num_rows($allrooms) > 0){
 
     $all_rooms = mysqli_fetch_all($allrooms, MYSQLI_ASSOC);
-   
+
     echo json_encode(["success"=>1,"rooms"=>$all_rooms]);
 }
 else{

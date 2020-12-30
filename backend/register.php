@@ -36,7 +36,7 @@ elseif(!isset($data->name)
     ):
 
     $fields = ['fields' => ['name','email','password']];
-    $returnData = msg(0,422,'Please Fill in all Required Fields!',$fields);
+    $returnData = msg(0,422,'Hãy nhập đầy đủ các trường!',$fields);
 
 // IF THERE ARE NO EMPTY FIELDS THEN-
 else:
@@ -77,7 +77,7 @@ else:
 
                 $insert_stmt->execute();
 
-                $returnData = msg(1,201,'You have successfully registered.');
+                $returnData = msg(1,201,'Bạn đã đăng ký thành công.');
 
             endif;
 
