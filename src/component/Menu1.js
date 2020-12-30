@@ -4,16 +4,6 @@ import {useHistory} from "react-router-dom";
 
 function Menu1(props) {
     const history = useHistory();
-    // const dd = {
-    //     marginLeft: "50px",
-    //     fontFamily: "Poppins",
-    //     fontWeight: "bold",
-    // };
-    // const css = {
-    //     marginLeft: "250px",
-    //     fontFamily: "Poppins",
-    //     fontWeight: "bold",
-    // };
     return (
         <Navbar bg="light" expand="lg" className="sticky-top">
             <Navbar.Brand href="/" style={{
@@ -25,70 +15,70 @@ function Menu1(props) {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto" style={{marginLeft: "130px"}}>
+                <Nav className="mr-auto" style={{marginLeft: "60px"}}>
                     <Nav.Link href="/" style={{
                         marginTop: "8px",
-                        fontFamily: "Poppins",
+                        fontFamily: "'Times New Roman', Times, serif",
                         fontWeight: "bold",
                     }}>
                         TRANG CHỦ
                     </Nav.Link>
                     {/* <Nav.Link href="bookroom" style={dd}>BookRoom</Nav.Link> */}
                     <Nav.Link href="rooms" style={{
-                        marginLeft: "30px",
+                        marginLeft: "10px",
                         marginTop: "8px",
-                        fontFamily: "Poppins",
+                        fontFamily: "'Times New Roman', Times, serif",
                         fontWeight: "bold",
                     }}>
                         PHÒNG
                     </Nav.Link>
                     {/* <Nav.Link href="restaurant" style={dd}>Restaurant</Nav.Link> */}
                     <Nav.Link href="about" style={{
-                        marginLeft: "30px",
+                        marginLeft: "15px",
                         marginTop: "8px",
-                        fontFamily: "Poppins",
+                        fontFamily: "'Times New Roman', Times, serif",
                         fontWeight: "bold",
                     }}>
                         GIỚI THIỆU
                     </Nav.Link>
                     <Nav.Link href="contact" style={{
-                        marginLeft: "30px",
+                        marginLeft: "10px",
                         marginTop: "8px",
-                        fontFamily: "Poppins",
+                        fontFamily: "'Times New Roman', Times, serif",
                         fontWeight: "bold",
                     }}>
                         LIÊN HỆ
                     </Nav.Link>
                     <Nav.Link href="detail_book" style={{
-                        marginLeft: "30px",
+                        marginLeft: "15px",
                         marginTop: "8px",
-                        fontFamily: "Poppins",
+                        fontFamily: "'Times New Roman', Times, serif",
                         fontWeight: "bold",
                     }}>
-                        CHI TIẾT ĐẶT PHÒNG
+                        XÁC NHẬN ĐẶT PHÒNG
                     </Nav.Link>
                     {props.token.length > 0 ? (
                         <Button onClick={() => {
                             localStorage.clear();
                             history.push("/");
+                            window.location.reload();
                         }} variant="outline-info" style={{
                             marginLeft: "180px",
-                            fontFamily: "Poppins",
-                            fontWeight: "bold",
+                            fontFamily: "'Times New Roman', Times, serif",
                         }}>Đăng xuất</Button>
                     ) : (
                         <>
                             <Nav.Link href="login" style={{
                                 marginLeft: "80px",
-                                fontFamily: "Poppins",
+                                fontFamily: "'Times New Roman', Times, serif",
                                 fontWeight: "bold",
                             }}>
                                 {" "}
                                 <Button variant="outline-info">Đăng nhập</Button>{" "}
                             </Nav.Link>
                             <Nav.Link href="register" style={{
-                                marginLeft: "30px",
-                                fontFamily: "Poppins",
+                                marginLeft: "10px",
+                                fontFamily: "'Times New Roman', Times, serif",
                                 fontWeight: "bold",
                             }}>
                                 {" "}

@@ -3,10 +3,11 @@ import Axios from "axios";
 import { Col, Row, Container } from "react-bootstrap";
 import { Calendar } from "primereact/calendar";
 import { Card, Button, Modal } from "react-bootstrap";
+import NumberFormat from 'react-number-format';
 import "../common/costume.css";
 import Slider from "./Slider";
 import $ from "jquery";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 window.$ = $;
 
 // ham convert ngay thang nam
@@ -27,9 +28,12 @@ const getDayHT = () => {
 };
 
 const Room = (props) => {
+  const history = useHistory();
   // console.log("props", props);
   const [listRoom, setListRoom] = useState([]);
   const [modalState, setModalState] = useState(false);
+  // formState dung de set lai hien thi form cua model
+  // const [formState, setFormState] = useState(0);
   const [styleHover, setStyleHover] = useState("");
   const [datenhan, setDatenhan] = useState(null);
   const [datetra, setDatetra] = useState(null);
@@ -39,38 +43,34 @@ const Room = (props) => {
   const [choseID, setChoseID] = useState("");
   const [nametype, setNametype] = useState("");
   const [item_price, setItem_price] = useState("");
+  // so luong phong con loai phong
   const [slPhong, setSlPhong] = useState("");
   const [image, setImage] = useState("");
-  // const [hoten, setHoten] = useState("");
-  // const history = useHistory();
-  // const [tong, setTong] = useState(0);
-  // const [soluong, setSoluong] = useState(1);
+  const [dientich, setDienTich] = useState("");
+  const [huongphong, setHuongPhong] = useState("");
+  const [giuong, setGiuong] = useState("");
 
   // Lấy dữ liệu để hiể thị lên modal đặt phòng
-  const getModal = (id, name, price, count_room, image_room) => {
+  const getModal = (id, name, price, count_room, image_room,dt,huongP,sGiuong) => {
     modalState === true ? setModalState(false) : setModalState(true);
-    setChoseID(id);
-    setNametype(name);
-    setItem_price(price);
-    setImage(image_room);
-    setSlPhong(parseInt(count_room, 10));
+        setChoseID(id);
+        setNametype(name);
+        setItem_price(price);
+        setImage(image_room);
+    // eslint-disable-next-line no-unused-expressions
+        setDienTich(dt),
+        setHuongPhong(huongP),
+        setGiuong(sGiuong),
+        setSlPhong(parseInt(count_room, 10));
   };
 
-  // const Hoantatdatphong = (tb) => {
-  //   alert(tb);
-  //   setDatenhan(null);
-  //   setDatetra(null);
-  //   setSlphong(1);
-  //   setSonguoilon(1);
-  //   setSotre(1);
-  //   setModalState(false);
-  // };
-
+  // Xử lý khi nhấn nút đặt phòng.
   const handleSubmit = () => {
-    // if (!props.token) {
-    //   history.push("/login");
-    //   return;
-    // }
+    if (!props.token) {
+      history.push("/login");
+      return;
+    }
+
     const newCart = {
       choseID,
       item_price,
@@ -87,6 +87,12 @@ const Room = (props) => {
 
     // Truyền cái cart đến trang homwe, rồi đến trang chủ.
     props.handleAddToCart(newCart);
+    alert("Bạn đã thêm phòng vào đơn đặt phòng thành công.");
+    setDatenhan(null);
+    setDatetra(null);
+    setSlphong(1);
+    setSonguoilon(1);
+    setSotre(0);
     // console.log("props", props.token);
   };
 
@@ -103,11 +109,12 @@ const Room = (props) => {
       });
   };
 
+  // Giống component did mount
   useEffect(() => {
     LayDsPhong();
   }, []);
 
-
+  // Khi rê chuột đến hình ảnh phòng
   const onHover = (id) => {
     setStyleHover(id);
   };
@@ -116,6 +123,7 @@ const Room = (props) => {
     setStyleHover(null);
   };
 
+  // Format ngày nhận
   const handleDateNhan = (e) => {
     // console.log("e", convert(e));
     let d1 = convert(e);
@@ -147,7 +155,7 @@ const Room = (props) => {
     }
   };
 
-
+  // Format ngày trả.
   const handleDateTra = (e) => {
     let d1 = convert(e);
     let ngNhap = d1.split("-");
@@ -200,6 +208,18 @@ const Room = (props) => {
                     marginTop: "20px",
                     borderRadius: "50px",
                   }}
+                  onClick={() =>
+                      getModal(
+                          item.id,
+                          item.name,
+                          item.price,
+                          item.count_room,
+                          item.image,
+                          item.dientich,
+                          item.huongphong,
+                          item.giuong
+                      )
+                  }
                 >
                   <Card.Img
                     variant="top"
@@ -208,8 +228,8 @@ const Room = (props) => {
                   />
                   <Card.Body>
                     <Card.Title style={{ textAlign: "center" }}>
-                      {item.price} VND
-              </Card.Title>
+                      <NumberFormat value={item.price} displayType={'text'} thousandSeparator={true} /> VND
+                    </Card.Title>
                     <Card.Text style={{ textAlign: "center", fontSize: "18pt" }}>
                       {item.name}
                     </Card.Text>
@@ -223,7 +243,10 @@ const Room = (props) => {
                             item.name,
                             item.price,
                             item.count_room,
-                            item.image
+                            item.image,
+                            item.dientich,
+                            item.huongphong,
+                            item.giuong
                           )
                         }
                       >
@@ -264,9 +287,18 @@ const Room = (props) => {
           <Modal.Title>Đặt phòng</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5>Quý khách đang chọn loại phòng {nametype} room.</h5>
+          <h5>Quý khách đang chọn loại {nametype}.</h5>
           <Container>
             <Row>
+              <Col md={4}>
+                <label>Diện tích: </label> {dientich}
+              </Col>
+              <Col md={4}>
+                <label>Hướng phòng: </label> {huongphong}
+              </Col>
+              <Col md={4}>
+                <label>Số giường: </label> {giuong}
+              </Col>
               <Col md={6}>
                 <h5>Ngày nhận phòng</h5>
                 <Calendar
@@ -353,7 +385,11 @@ const Room = (props) => {
           </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={() => handleSubmit()}>
+          <Button variant="success" onClick={() => {
+            handleSubmit();
+
+            setModalState(false);
+          }}>
             Booking Room
         </Button>
           <Button variant="secondary" onClick={() => getModal()}>

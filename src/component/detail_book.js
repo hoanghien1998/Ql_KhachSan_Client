@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Button } from "react-bootstrap";
 import Axios from 'axios';
+import NumberFormat from "react-number-format";
 function Detail_Book(props) {
     // Define state in function
     const [IDRoom, setIDRoom] = useState("");
@@ -14,7 +15,7 @@ function Detail_Book(props) {
     const [Total, setTotal] = useState(0);
 
     const { rooms, token } = props;
-     // console.log("rooms", rooms);
+     console.log("rooms", rooms);
 
     // Tính số ngày thông qua ngày nhận và ngày trả phòng
     const handleTinhNgay = (datenhan, datetra) => {
@@ -22,30 +23,39 @@ function Detail_Book(props) {
         const d2 = new Date(datetra).getTime();
         var daysTill30June2035 = Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
         // console.log("daysTill30June2035", daysTill30June2035 + 1);
-        return daysTill30June2035 + 1;
+        return daysTill30June2035 ;
     };
 
+    // Fomat ngày hiển thị lên trong xác nhận đơn đặt phòng
     const handleShowDate = (item) => {
         const data = item.split('-');
         return `${data[2]}-${data[1]}-${data[0]}`
     }
 
+    // Sau khi hoàn tất đặt hàng
+    const Hoantatdatphong = (tb) => {
+        alert(tb);
+        localStorage.removeItem("room");
+        window.location.reload();
+    }
+
+    // Hủy đơn hàng
+    const handleClear = () =>{
+        localStorage.removeItem("room");
+        window.location.reload();
+    }
     // Xử lý gửi cái giỏ xuống backend
     const handleSendCart = () => {
         var frm = new FormData();
         frm.append("rooms",JSON.stringify(rooms));
         frm.append("token",token);
         var url = "/doan/Ql_KhachSan_Client/backend/Room/DatPhong.php";
-        Axios.post(url, frm).then(res => {
-            console.log("res", res)
-
-        })
-            .catch(err => console.log(err));
+        Axios.post(url, frm).then(res => Hoantatdatphong(res.data)).catch(err => alert(err));
     }
 
     return (
         <div>
-            <Container style={{ height: "350px"}}>
+            <Container style={{ height: "auto", minHeight: "350px"}}>
                 <Row>
                     <Col md={12}>
                         <div
@@ -107,11 +117,15 @@ function Detail_Book(props) {
                                                 </button>
                                             </td>
                                             {/* <td>{handleTinhNgay(item.datenhan, item.datetra)}</td> */}
-                                            <td>{item.item_price}</td>
                                             <td>
-                                                {handleTinhNgay(item.datenhan, item.datetra) *
-                                                    parseInt(item.item_price, 10) *
-                                                    item.slphong}
+                                                <NumberFormat value={item.item_price} displayType={'text'} thousandSeparator={true} />
+
+                                            </td>
+                                            <td>
+                                                <NumberFormat value={handleTinhNgay(item.datenhan, item.datetra) *
+                                                parseInt(item.item_price, 10) *
+                                                item.slphong} displayType={'text'} thousandSeparator={true} />
+
                                             </td>
                                             {/* handleDeleteRoom */}
 
@@ -124,41 +138,50 @@ function Detail_Book(props) {
                                             </td>
                                         </tr>
                                     ))}
-                                <tr>
-                                    <th style={{ textAlign: "center", fontSize: "20pt" }}>
-                                        Tổng:{" "}
-
-                                    </th>
-                                    <th style={{ textAlign: "center", fontSize: "20pt" }}>
-                                        {rooms &&
-                                            rooms.reduce(
-                                                (a, c) =>
-                                                    a +
-                                                    handleTinhNgay(c.datenhan, c.datetra) *
-                                                    c.slphong *
-                                                    c.item_price,
-                                                0
-                                            )}
-                                        $<input type="hidden" name="tong" value="" />
-                                    </th>
-                                </tr>
                             </tbody>
                         </table>
                     </Col>
+                </Row>
+                <Row>
+                    <Col md={2}>
+                        <h3>Tổng: </h3>
+                    </Col>
+                    <Col md={10} >
+                        <h3>
+                        <NumberFormat value={rooms &&
+                        rooms.reduce(
+                            (a, c) =>
+                                a +
+                                handleTinhNgay(c.datenhan, c.datetra) *
+                                c.slphong *
+                                c.item_price,
+                            0
+                        )} displayType={'text'} thousandSeparator={true}  /> VND
+                        </h3>
+                    </Col>
+                </Row>
+                <Row>
                     <Col>
-                        <Button
-                            variant="primary"
-                            style={{ marginLeft: "300px", marginTop: "50px" }}
-                            onClick={() => handleSendCart()}
-                        >
-                            Xác nhận đơn đặt phòng
-            </Button>
-                        <Button
-                            variant="primary"
-                            style={{ marginLeft: "300px", marginTop: "50px" }}
-                        >
-                            Hủy đơn
-            </Button>
+                        {rooms.length !== 0 ?
+                            <Col>
+                                <Button
+                                    variant="primary"
+                                    style={{ marginLeft: "300px", marginTop: "50px" }}
+                                    onClick={() => handleSendCart()}
+                                >
+                                    Xác nhận đơn đặt phòng
+                                </Button>
+                                <Button
+                                    variant="primary"
+                                    style={{ marginLeft: "300px", marginTop: "50px" }}
+                                    onClick={() => handleClear()}
+                                >
+                                    Hủy đơn
+                                </Button>
+                            </Col>
+
+                            : null}
+
                     </Col>
                 </Row>
             </Container>
