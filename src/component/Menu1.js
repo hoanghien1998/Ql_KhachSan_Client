@@ -42,7 +42,7 @@ function Menu1(props) {
                         GIỚI THIỆU
                     </Nav.Link>
                     <Nav.Link href="contact" style={{
-                        marginLeft: "10px",
+                        marginLeft: "15px",
                         marginTop: "8px",
                         fontFamily: "'Times New Roman', Times, serif",
                         fontWeight: "bold",
@@ -57,15 +57,26 @@ function Menu1(props) {
                     }}>
                         XÁC NHẬN ĐẶT PHÒNG
                     </Nav.Link>
+                   
                     {props.token.length > 0 ? (
+                        <>
+                        <Nav.Link href="acount" style={{
+                            marginLeft: "80px",
+                            marginTop: "8px",
+                            fontFamily: "'Times New Roman', Times, serif",
+                            fontWeight: "bold",
+                        }}>
+                            TÀI KHOẢN
+                        </Nav.Link>
                         <Button onClick={() => {
                             localStorage.clear();
                             history.push("/");
                             window.location.reload();
                         }} variant="outline-info" style={{
-                            marginLeft: "180px",
+                            marginLeft: "30px",
                             fontFamily: "'Times New Roman', Times, serif",
                         }}>Đăng xuất</Button>
+                        </>
                     ) : (
                         <>
                             <Nav.Link href="login" style={{

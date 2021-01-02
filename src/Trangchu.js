@@ -12,10 +12,14 @@ import Contact from "./component/Contact";
 import Login from "./component/Login";
 import Register from "./component/Register";
 import Detail_Book from "./component/Detail_Book";
+import Acount from "./component/Acount";
 
 function Trangchu(props) {
     const [token, setToken] = useState(
         localStorage.getItem("token") ? localStorage.getItem("token") : ""
+    );
+    const [user, setUser] = useState(
+        localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : []
     );
 
     const [rooms, setRooms] = useState(
@@ -25,6 +29,11 @@ function Trangchu(props) {
     // Xử lý lấy cái token
     const handleGetToken = (e) => {
         setToken(e);
+    };
+
+    // Xu ly lay user
+    const handleGetUser = (e) => {
+        setUser(e);
     };
 
     // Lưu cái thông tin khi đặt phòng xuống localStorage.
@@ -80,7 +89,7 @@ function Trangchu(props) {
         localStorage.setItem("room", JSON.stringify(listRoom));
         setRooms(listRoom);
     };
-
+    
     return (
         <BrowserRouter>
             <Container fluid style={{ margin: "0", padding: "0" }}>
@@ -94,7 +103,8 @@ function Trangchu(props) {
                     <Route exact path="/about" component={About} />
                     <Route exact path="/contact" component={Contact} />
                     <Route exact path="/login">
-                        <Login handleGetToken={(e) => handleGetToken(e)} />
+                        <Login handleGetToken={(e) => handleGetToken(e)}
+                            handleGetUser={(e) => handleGetUser(e)} />
                     </Route>
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/detail_book">
@@ -105,6 +115,11 @@ function Trangchu(props) {
                             handleMinustQtyRoom={(e) => handleMinustQtyRoom(e)}
                             token={token}
                         />
+                    </Route>
+                    <Route exact path="/acount">
+                        <Acount token={token}
+                            user={user}/>
+                       
                     </Route>
                 </Switch>
                 <Footer />

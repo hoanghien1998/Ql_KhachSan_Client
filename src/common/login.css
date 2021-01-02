@@ -1,4 +1,14 @@
-
+.css_facebook{
+    margin: 0 auto;
+    height: 40px;
+    margin-top: 5px;
+    display: block;
+    outline: none;
+    box-shadow: none!important;
+    border: none;
+    width: 100%;
+    background-color: #1877f2;
+}
 .userInfo,
 ._loginRegister{
     background-color: #ffffff;
